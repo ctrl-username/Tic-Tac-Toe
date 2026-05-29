@@ -11,8 +11,9 @@ const playGame = () => {
       return true;
     };
     const reset = () => board.fill("");
+    return { getBoard, updateCell, reset };
   })();
-  console.log("game start");
+  console.log("game start", gameBoard.getBoard());
 };
 
 playGame();
