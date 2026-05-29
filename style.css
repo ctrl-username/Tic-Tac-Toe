@@ -54,3 +54,16 @@ body {
   padding: 40px 32px;
   position: relative;
 }
+.header {
+  text-align: center;
+  position: relative;
+}
+.header::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 60px;
+  background-color: var(--board-dark);
+  margin: 10px auto 0;
+  opacity: 0.5;
+}
