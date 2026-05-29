@@ -1,0 +1,26 @@
+:root {
+  --bg: #f0e6d3;
+  --board-bg: #c8a97e;
+  --board-dark: #8b5e3c;
+  --groove: #6b4423;
+  --x-color: #3d2b1f;
+  --o-color: #7a3b1e;
+  --text-primary: #3d2b1f;
+  --text-muted: #9b7b5b;
+  --cell-bg: #deb887;
+  --cell-hover: #d4a96a;
+  --status-bg: #e8d5b7;
+  --btn-bg: #8b5e3c;
+  --btn-hover: #6b4423;
+  --btn-text: #f5deb3;
+  --label-color: #c0392b;
+  --label-bg: rgba(192, 57, 43, 0.08);
+  --label-border: #c0392b;
+}
+
+body {
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient();
+}
+#container {
+}
