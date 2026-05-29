@@ -43,6 +43,7 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   font-family: "Crimson Text", serif;
   color: var(--text-primary);
 }
@@ -108,4 +109,10 @@ body {
   font-size: 2rem;
   color: var(--text-primary);
   line-height: 1.1;
+}
+
+.bridge {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
 }
