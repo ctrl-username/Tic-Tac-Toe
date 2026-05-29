@@ -16,6 +16,7 @@
   --label-color: #c0392b;
   --label-bg: rgba(192, 57, 43, 0.08);
   --label-border: #c0392b;
+  --win-cell: #e8c98a;
 }
 * {
   box-sizing: border-box;
@@ -163,4 +164,17 @@ body {
 #controls {
   display: flex;
   gap: 12px;
+}
+
+.cell.x {
+  color: var(--x-color);
+}
+
+.cell.o {
+  color: var(--o-color);
+}
+
+.cell.win {
+  background-color: var(--win-cell);
+  box-shadow: inset 0 0 0 2px var(--board-dark);
 }
