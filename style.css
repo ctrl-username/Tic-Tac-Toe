@@ -178,3 +178,37 @@ body {
   background-color: var(--win-cell);
   box-shadow: inset 0 0 0 2px var(--board-dark);
 }
+
+.btn {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-family: "Crimson Text", serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.15 ease transform 0.1s ease;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-1px);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--btn-bg);
+  border: 1.5px solid var(--btn-bg);
+}
+
+.btn.secondary:hover {
+  background: var(--status-bg);
+}
+
+#footer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
