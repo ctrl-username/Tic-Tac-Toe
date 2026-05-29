@@ -20,7 +20,21 @@
 
 body {
   background-color: var(--bg);
-  background-image: repeating-linear-gradient();
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(139, 94, 60, 0.04) 40px,
+      rgba(139, 94, 60, 0.04) 41px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(139, 94, 60, 0.03) 60px,
+      rgba(139, 94, 60, 0.03) 61px
+    );
 }
 #container {
 }
