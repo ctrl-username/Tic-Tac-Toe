@@ -31,7 +31,8 @@ const playGame = () => {
 
   const playerX = createPlayer("X");
   const playerY = createPlayer("Y");
-  console.log(playerX.getScore());
+  playerX.updateScore(20);
+  console.log(playerX.getScore(), playerX.marker);
 
   const winConditions = () => {
     [0, 1, 2][(3, 4, 5)][(6, 7, 8)];
