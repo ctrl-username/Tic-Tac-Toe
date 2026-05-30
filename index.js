@@ -4,17 +4,38 @@
 const playGame = () => {
   const gameBoard = (() => {
     let board = ["", "", "", "", "", "", "", "", ""];
+
     const getBoard = () => board;
+
     const updateCell = (index, marker) => {
       if (board[index] !== "") return false;
       board[index] = marker;
       return true;
     };
+
     const reset = () => board.fill("");
+
     return { getBoard, updateCell, reset };
   })();
 
-  const displayController = () => {};
+  const displayController = () => { };
+  function createPlayer(name) = {
+    const playerID = `Player ${name}`;
+    const marker = name;
+    let score = 0;
+    const getScore = () => score;
+    const updateScore = (newscore) => score = newscore;
+
+    return {playerID, marker, getScore, updateScore}
+
+  }
+
+
+
+  const winConditions = () => {
+    [0, 1, 2][(3, 4, 5)][(6, 7, 8)];
+  };
+  gameBoard.updateCell(1, "X");
   console.log("game start", gameBoard.getBoard());
 };
 
