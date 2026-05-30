@@ -18,19 +18,20 @@ const playGame = () => {
     return { getBoard, updateCell, reset };
   })();
 
-  const displayController = () => { };
-  function createPlayer(name) = {
+  const displayController = () => {};
+  function createPlayer(name) {
     const playerID = `Player ${name}`;
     const marker = name;
     let score = 0;
     const getScore = () => score;
-    const updateScore = (newscore) => score = newscore;
+    const updateScore = (newscore) => (score = newscore);
 
-    return {playerID, marker, getScore, updateScore}
-
+    return { playerID, marker, getScore, updateScore };
   }
 
-
+  const playerX = createPlayer("X");
+  const playerY = createPlayer("Y");
+  console.log(playerX.getScore());
 
   const winConditions = () => {
     [0, 1, 2][(3, 4, 5)][(6, 7, 8)];
