@@ -52,11 +52,18 @@ const playGame = () => {
       [0, 4, 8],
     ];
 
+    const checkWins = () => {
+      for (let i = 0; i < winsX.length; ) {}
+      console.log(winsX.length);
+    };
+    checkWins();
+
     //   bameboard = gameBoard.board
     //   if (gameBoard.board[0]
   };
-
+  winConditions();
   const gameOver = () => {};
+
   gameBoard.updateCell(1, "X");
   console.log("game start", gameBoard.getBoard());
 };
