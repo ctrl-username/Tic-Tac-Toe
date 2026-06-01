@@ -53,8 +53,16 @@ const playGame = () => {
     ];
 
     const checkWins = () => {
-      for (let i = 0; i < winsX.length; ) {}
-      console.log(winsX.length);
+      const wins = [...winsX, ...winsY, ...winsD]
+      const [a,b,c] = wins;
+      const board = gameBoard.getBoard();
+
+      for (let i = 0; i < wins.length; i++) {
+       if(board[a] != "" && board[b] == board[a] && board[c] == board[a]){
+           return board[a];
+        }
+}
+       
     };
     checkWins();
 
