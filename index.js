@@ -35,10 +35,28 @@ const playGame = () => {
   console.log(playerX.getScore(), playerX.marker);
 
   const winConditions = () => {
-    [0, 1, 2][(3, 4, 5)][(6, 7, 8)];
-    bameboard= gameBoard.board
-    if (gameBoard.board[0]
+    const winsX = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+    ];
+
+    const winsY = [
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+    ];
+
+    const winsD = [
+      [6, 4, 2],
+      [0, 4, 8],
+    ];
+
+    //   bameboard = gameBoard.board
+    //   if (gameBoard.board[0]
   };
+
+  const gameOver = () => {};
   gameBoard.updateCell(1, "X");
   console.log("game start", gameBoard.getBoard());
 };
