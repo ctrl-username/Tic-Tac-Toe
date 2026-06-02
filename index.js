@@ -57,9 +57,8 @@ const playGame = () => {
     };
     return { makeMove };
   };
-
   const game = createGame();
-  game.makeMove(4);
+
   const winConditions = () => {
     const winsX = [
       [0, 1, 2],
