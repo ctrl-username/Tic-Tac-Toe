@@ -3,7 +3,8 @@
 //track board state
 const playGame = () => {
   const gameBoard = (() => {
-    let board = ["", "", "", "", "", "", "", "", ""];
+    let board = ["O", "O", "O", "", "", "", "", "", ""];
+    // let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => board;
 
@@ -65,7 +66,7 @@ const playGame = () => {
         }
       }
     };
-    checkWins();
+    console.log(checkWins());
 
     //   bameboard = gameBoard.board
     //   if (gameBoard.board[0]
