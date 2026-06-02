@@ -30,11 +30,36 @@ const playGame = () => {
     return { playerID, marker, getScore, updateScore };
   }
 
-  const playerX = createPlayer("X");
-  const playerY = createPlayer("Y");
-  playerX.updateScore(20);
-  console.log(playerX.getScore(), playerX.marker);
+  const createGame = () => {
+    //create players
 
+    const playerX = createPlayer("X");
+    const playerO = createPlayer("O");
+    let turn = playerX.marker;
+
+    const makeMove = (index) => {
+      console.log(`it's ${turn.playerID} turn`);
+      // pick turn
+      switch (turn) {
+        case "X":
+          gameBoard.updateCell(index, playerX.marker);
+
+          turn = playerO.marker;
+          console.log(gameBoard.getBoard());
+          break;
+        case "O":
+          gameBoard.updateCell(index, playerO.marker);
+          console.log(`it's ${playerO.playerID} turn`);
+          turn = playerX.marker;
+          console.log(gameBoard.getBoard());
+          break;
+      }
+    };
+    return { makeMove };
+  };
+
+  const game = createGame();
+  game.makeMove(4);
   const winConditions = () => {
     const winsX = [
       [0, 1, 2],
@@ -57,7 +82,7 @@ const playGame = () => {
       const wins = [...winsX, ...winsY, ...winsD];
 
       const board = gameBoard.getBoard();
-
+      // check wins
       for (let i = 0; i < wins.length; i++) {
         const [a, b, c] = wins[i];
         console.log(a, b, c);
@@ -76,6 +101,7 @@ const playGame = () => {
 
   gameBoard.updateCell(1, "X");
   console.log("game start", gameBoard.getBoard());
+  return { game };
 };
 
-playGame();
+const game = playGame();
