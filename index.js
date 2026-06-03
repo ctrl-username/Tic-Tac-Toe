@@ -13,7 +13,6 @@ const playGame = () => {
       board[index] = marker;
       return true;
     };
-
     const reset = () => board.fill("");
 
     return { getBoard, updateCell, reset };
@@ -36,26 +35,29 @@ const playGame = () => {
     const playerX = createPlayer("X");
     const playerO = createPlayer("O");
     let turn = playerX.marker;
+    const currentPlayer = () => console.log(`it's Player ${turn} turn`);
+    const playerMove = (index) => {};
 
     const makeMove = (index) => {
-      console.log(`it's ${turn.playerID} turn`);
       // pick turn
       switch (turn) {
         case "X":
-          gameBoard.updateCell(index, playerX.marker);
-
-          turn = playerO.marker;
+          gameBoard.updateCell(index, playerX.marker)
+            ? (turn = playerO.marker)
+            : console.log("invalid move");
           console.log(gameBoard.getBoard());
+          currentPlayer();
           break;
         case "O":
-          gameBoard.updateCell(index, playerO.marker);
-          console.log(`it's ${playerO.playerID} turn`);
-          turn = playerX.marker;
+          gameBoard.updateCell(index, playerO.marker)
+            ? (turn = playerX.marker)
+            : console.log("invalid move");
           console.log(gameBoard.getBoard());
+          currentPlayer();
           break;
       }
     };
-    return { makeMove };
+    return { makeMove, turn };
   };
   const game = createGame();
 
