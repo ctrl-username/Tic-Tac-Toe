@@ -51,18 +51,19 @@ const playGame = () => {
             gameBoard.updateCell(index, playerX.marker)
               ? (turn = playerO.marker)
               : console.info("Cell is already filled");
+            winConditions.checkWins();
             displayController.updateDom();
             currentPlayer();
-            winConditions.checkWins();
 
             break;
           case "O":
             gameBoard.updateCell(index, playerO.marker)
               ? (turn = playerX.marker)
               : console.info("Cell is already filled");
+            winConditions.checkWins();
             displayController.updateDom();
             currentPlayer();
-            winConditions.checkWins();
+
             break;
         }
       }
@@ -117,6 +118,7 @@ const playGame = () => {
           break;
         case "new_game":
           gameBoard.reset();
+          updateDom();
           console.log("new game button clicked");
 
           break;
