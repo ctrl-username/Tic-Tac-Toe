@@ -3,7 +3,7 @@
 //track board state
 const playGame = () => {
   const gameBoard = (() => {
-    let board = ["O", "", "O", "X", "O", "X", "O", "X", "O"];
+    let board = ["O", "X", "O", "X", "O", "X", "O", "X", "O"];
     // let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => board;
@@ -37,6 +37,7 @@ const playGame = () => {
     let turn = playerX.marker;
     const currentPlayer = () => console.log(`it's Player ${turn} turn`);
     const playerMove = (index) => {};
+    const resetBoard = gameBoard.reset;
 
     const makeMove = (index) => {
       // pick turn
@@ -47,6 +48,8 @@ const playGame = () => {
             : console.log("Cell is already filled");
           console.log(gameBoard.getBoard());
           currentPlayer();
+          winConditions.checkWins();
+
           break;
         case "O":
           gameBoard.updateCell(index, playerO.marker)
@@ -54,14 +57,15 @@ const playGame = () => {
             : console.log("Cell is already filled");
           console.log(gameBoard.getBoard());
           currentPlayer();
+          winConditions.checkWins();
           break;
       }
     };
-    return { makeMove, turn };
+    return { makeMove, turn, resetBoard };
   };
   const game = createGame();
 
-  const winConditions = () => {
+  const winConditions = (() => {
     const winsX = [
       [0, 1, 2],
       [3, 4, 5],
@@ -88,7 +92,8 @@ const playGame = () => {
         const [a, b, c] = wins[i];
         console.log(a, b, c);
         if (board[a] != "" && board[b] == board[a] && board[c] == board[a]) {
-          // return board[a];
+          console.log("player", board[a], "is the winner");
+          return board[a];
         }
       }
       if (gameBoard.getBoard().filter((marker) => marker === "").length === 0) {
@@ -96,15 +101,15 @@ const playGame = () => {
         console.log("it's a draw");
       }
     };
-    console.log(checkWins());
 
     //   bameboard = gameBoard.board
     //   if (gameBoard.board[0]
-  };
-  winConditions();
+    return { checkWins };
+  })();
+
   const gameOver = () => {};
 
-  gameBoard.updateCell(1, "X");
+  gameBoard.updateCell(1, "F");
   console.log(
     "game start",
     gameBoard.getBoard(),
