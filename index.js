@@ -3,7 +3,7 @@
 //track board state
 const playGame = () => {
   const gameBoard = (() => {
-    let board = ["O", "X", "O", "X", "O", "X", "O", "X", "O"];
+    let board = ["", "", "", "", "", "", "", "", ""];
     // let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => board;
@@ -13,12 +13,19 @@ const playGame = () => {
       board[index] = marker;
       return true;
     };
-    const reset = () => board.fill("");
+    const reset = () => {
+      board.fill("");
+      game.toggleYouWin();
+    };
 
     return { getBoard, updateCell, reset };
   })();
 
-  const displayController = () => {};
+  const displayController = () => {
+    console.log(gameBoard.getBoard().slice(0, 3));
+    console.log(gameBoard.getBoard().slice(3, 6));
+    console.log(gameBoard.getBoard().slice(6, 9));
+  };
   function createPlayer(name) {
     const playerID = `Player ${name}`;
     const marker = name;
@@ -34,34 +41,38 @@ const playGame = () => {
 
     const playerX = createPlayer("X");
     const playerO = createPlayer("O");
+    let youWin = false;
+    const toggleYouWin = () => (youWin = !youWin);
     let turn = playerX.marker;
-    const currentPlayer = () => console.log(`it's Player ${turn} turn`);
+    const currentPlayer = () => console.table(`it's Player ${turn} turn`);
     const playerMove = (index) => {};
     const resetBoard = gameBoard.reset;
 
     const makeMove = (index) => {
-      // pick turn
-      switch (turn) {
-        case "X":
-          gameBoard.updateCell(index, playerX.marker)
-            ? (turn = playerO.marker)
-            : console.log("Cell is already filled");
-          console.log(gameBoard.getBoard());
-          currentPlayer();
-          winConditions.checkWins();
+      if (!youWin) {
+        // pick turn
+        switch (turn) {
+          case "X":
+            gameBoard.updateCell(index, playerX.marker)
+              ? (turn = playerO.marker)
+              : console.info("Cell is already filled");
+            displayController();
+            currentPlayer();
+            winConditions.checkWins();
 
-          break;
-        case "O":
-          gameBoard.updateCell(index, playerO.marker)
-            ? (turn = playerX.marker)
-            : console.log("Cell is already filled");
-          console.log(gameBoard.getBoard());
-          currentPlayer();
-          winConditions.checkWins();
-          break;
+            break;
+          case "O":
+            gameBoard.updateCell(index, playerO.marker)
+              ? (turn = playerX.marker)
+              : console.info("Cell is already filled");
+            displayController();
+            currentPlayer();
+            winConditions.checkWins();
+            break;
+        }
       }
     };
-    return { makeMove, turn, resetBoard };
+    return { makeMove, turn, resetBoard, toggleYouWin };
   };
   const game = createGame();
 
@@ -90,15 +101,17 @@ const playGame = () => {
       // check wins
       for (let i = 0; i < wins.length; i++) {
         const [a, b, c] = wins[i];
-        console.log(a, b, c);
+
         if (board[a] != "" && board[b] == board[a] && board[c] == board[a]) {
-          console.log("player", board[a], "is the winner");
+          console.table("player", board[a], "is the winner");
+          game.toggleYouWin();
           return board[a];
         }
       }
       if (gameBoard.getBoard().filter((marker) => marker === "").length === 0) {
-        console.log(gameBoard.getBoard());
-        console.log("it's a draw");
+        console.table(gameBoard.getBoard());
+        game.toggleYouWin();
+        console.table("it's a draw");
       }
     };
 
@@ -109,15 +122,15 @@ const playGame = () => {
 
   const gameOver = () => {};
 
-  gameBoard.updateCell(1, "F");
-  console.log(
+  console.table(
     "game start",
-    gameBoard.getBoard(),
+
     "\n",
     "it's player ",
     game.turn,
     "turn",
   );
+
   return { game };
 };
 
