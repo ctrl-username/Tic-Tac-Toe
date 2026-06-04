@@ -3,7 +3,7 @@
 //track board state
 const playGame = () => {
   const gameBoard = (() => {
-    let board = ["O", "O", "O", "", "", "", "", "", ""];
+    let board = ["O", "", "O", "X", "O", "X", "O", "X", "O"];
     // let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => board;
@@ -44,14 +44,14 @@ const playGame = () => {
         case "X":
           gameBoard.updateCell(index, playerX.marker)
             ? (turn = playerO.marker)
-            : console.log("invalid move");
+            : console.log("Cell is already filled");
           console.log(gameBoard.getBoard());
           currentPlayer();
           break;
         case "O":
           gameBoard.updateCell(index, playerO.marker)
             ? (turn = playerX.marker)
-            : console.log("invalid move");
+            : console.log("Cell is already filled");
           console.log(gameBoard.getBoard());
           currentPlayer();
           break;
@@ -88,8 +88,12 @@ const playGame = () => {
         const [a, b, c] = wins[i];
         console.log(a, b, c);
         if (board[a] != "" && board[b] == board[a] && board[c] == board[a]) {
-          return board[a];
+          // return board[a];
         }
+      }
+      if (gameBoard.getBoard().filter((marker) => marker === "").length === 0) {
+        console.log(gameBoard.getBoard());
+        console.log("it's a draw");
       }
     };
     console.log(checkWins());
@@ -101,7 +105,14 @@ const playGame = () => {
   const gameOver = () => {};
 
   gameBoard.updateCell(1, "X");
-  console.log("game start", gameBoard.getBoard());
+  console.log(
+    "game start",
+    gameBoard.getBoard(),
+    "\n",
+    "it's player ",
+    game.turn,
+    "turn",
+  );
   return { game };
 };
 
