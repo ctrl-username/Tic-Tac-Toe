@@ -20,6 +20,57 @@ const playGame = () => {
     return { getBoard, updateCell, reset };
   })();
 
+  function createPlayer(name) {
+    const playerID = `Player ${name}`;
+    const marker = name;
+    let score = 0;
+    const getScore = () => score;
+    const updateScore = (newscore) => (score = newscore);
+
+    return { playerID, marker, getScore, updateScore };
+  }
+
+  const createGame = () => {
+    //create players
+
+    const playerX = createPlayer("X");
+    const playerO = createPlayer("O");
+
+    let youWin = false;
+    const toggleYouWin = () => (youWin = !youWin);
+    let turn = playerX.marker;
+    const currentPlayer = () => console.table(`it's Player ${turn} turn`);
+
+    const resetBoard = gameBoard.reset;
+
+    const makeMove = (index) => {
+      if (!youWin) {
+        // pick turn
+        switch (turn) {
+          case "X":
+            gameBoard.updateCell(index, playerX.marker)
+              ? (turn = playerO.marker)
+              : console.info("Cell is already filled");
+            displayController.updateDom();
+            currentPlayer();
+            winConditions.checkWins();
+
+            break;
+          case "O":
+            gameBoard.updateCell(index, playerO.marker)
+              ? (turn = playerX.marker)
+              : console.info("Cell is already filled");
+            displayController.updateDom();
+            currentPlayer();
+            winConditions.checkWins();
+            break;
+        }
+      }
+    };
+    return { makeMove, turn, resetBoard, toggleYouWin, playerX, playerO };
+  };
+  const game = createGame();
+
   const displayController = (() => {
     const container = document.getElementById("container");
     const playerXScore = document.getElementById("X");
@@ -78,6 +129,8 @@ const playGame = () => {
     });
 
     const updateDom = () => {
+      playerOScore.innerHTML = game.playerO.getScore();
+      playerXScore.innerHTML = game.playerX.getScore();
       gameBoard.getBoard().map((cell, index) => {
         console.table(cell);
         let item = document.getElementById(index);
@@ -92,56 +145,6 @@ const playGame = () => {
     updateDom();
     return { updateDom };
   })();
-
-  function createPlayer(name) {
-    const playerID = `Player ${name}`;
-    const marker = name;
-    let score = 0;
-    const getScore = () => score;
-    const updateScore = (newscore) => (score = newscore);
-
-    return { playerID, marker, getScore, updateScore };
-  }
-
-  const createGame = () => {
-    //create players
-
-    const playerX = createPlayer("X");
-    const playerO = createPlayer("O");
-    let youWin = false;
-    const toggleYouWin = () => (youWin = !youWin);
-    let turn = playerX.marker;
-    const currentPlayer = () => console.table(`it's Player ${turn} turn`);
-    const playerMove = (index) => {};
-    const resetBoard = gameBoard.reset;
-
-    const makeMove = (index) => {
-      if (!youWin) {
-        // pick turn
-        switch (turn) {
-          case "X":
-            gameBoard.updateCell(index, playerX.marker)
-              ? (turn = playerO.marker)
-              : console.info("Cell is already filled");
-            displayController.updateDom();
-            currentPlayer();
-            winConditions.checkWins();
-
-            break;
-          case "O":
-            gameBoard.updateCell(index, playerO.marker)
-              ? (turn = playerX.marker)
-              : console.info("Cell is already filled");
-            displayController.updateDom();
-            currentPlayer();
-            winConditions.checkWins();
-            break;
-        }
-      }
-    };
-    return { makeMove, turn, resetBoard, toggleYouWin };
-  };
-  const game = createGame();
 
   const winConditions = (() => {
     const winsX = [
@@ -171,6 +174,12 @@ const playGame = () => {
 
         if (board[a] != "" && board[b] == board[a] && board[c] == board[a]) {
           console.table("player", board[a], "is the winner");
+
+          if (board[a] === "X") {
+            game.playerX.updateScore(+1);
+          } else {
+            game.playerO.updateScore(+1);
+          }
           game.toggleYouWin();
           return board[a];
         }
