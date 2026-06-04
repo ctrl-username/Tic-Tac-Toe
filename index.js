@@ -4,7 +4,6 @@
 const playGame = () => {
   const gameBoard = (() => {
     let board = ["", "", "", "", "", "", "", "", ""];
-    // let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => board;
 
@@ -21,11 +20,79 @@ const playGame = () => {
     return { getBoard, updateCell, reset };
   })();
 
-  const displayController = () => {
-    console.log(gameBoard.getBoard().slice(0, 3));
-    console.log(gameBoard.getBoard().slice(3, 6));
-    console.log(gameBoard.getBoard().slice(6, 9));
-  };
+  const displayController = (() => {
+    const container = document.getElementById("container");
+    const playerXScore = document.getElementById("X");
+    const playerOScore = document.getElementById("O");
+    container.addEventListener("click", (event) => {
+      let target = event.target;
+      switch (target.id) {
+        case "0":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "1":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+
+        case "2":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "3":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "4":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "5":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "6":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "7":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "8":
+          console.log(`cell ${target.id} clicked`);
+          game.makeMove(target.id);
+          break;
+        case "new_game":
+          gameBoard.reset();
+          console.log("new game button clicked");
+
+          break;
+        case "reset_score":
+          console.log("reset button clicked");
+          break;
+        default:
+          console.log("you clicked anything");
+      }
+    });
+
+    const updateDom = () => {
+      gameBoard.getBoard().map((cell, index) => {
+        console.table(cell);
+        let item = document.getElementById(index);
+        item.textContent = cell;
+        console.log(item);
+      });
+    };
+    // console.log(container);
+    // console.log(gameBoard.getBoard().slice(0, 3));
+    // console.log(gameBoard.getBoard().slice(3, 6));
+    // console.log(gameBoard.getBoard().slice(6, 9));
+    updateDom();
+    return { updateDom };
+  })();
+
   function createPlayer(name) {
     const playerID = `Player ${name}`;
     const marker = name;
@@ -56,7 +123,7 @@ const playGame = () => {
             gameBoard.updateCell(index, playerX.marker)
               ? (turn = playerO.marker)
               : console.info("Cell is already filled");
-            displayController();
+            displayController.updateDom();
             currentPlayer();
             winConditions.checkWins();
 
@@ -65,7 +132,7 @@ const playGame = () => {
             gameBoard.updateCell(index, playerO.marker)
               ? (turn = playerX.marker)
               : console.info("Cell is already filled");
-            displayController();
+            displayController.updateDom();
             currentPlayer();
             winConditions.checkWins();
             break;
