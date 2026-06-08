@@ -25,7 +25,7 @@ const playGame = () => {
     const marker = name;
     let score = 0;
     const getScore = () => score;
-    const updateScore = (newscore) => (score = newscore);
+    const updateScore = (newscore) => (score += 1);
 
     return { playerID, marker, getScore, updateScore };
   }
@@ -38,8 +38,10 @@ const playGame = () => {
 
     let youWin = false;
     const toggleYouWin = () => (youWin = !youWin);
+
     let turn = playerX.marker;
-    const currentPlayer = () => console.table(`it's Player ${turn} turn`);
+    const currentPlayer = () =>
+      console.table(`it's Player ${turn} turn`, console.log(game.youWin));
 
     const resetBoard = gameBoard.reset;
 
@@ -68,7 +70,15 @@ const playGame = () => {
         }
       }
     };
-    return { makeMove, turn, resetBoard, toggleYouWin, playerX, playerO };
+    return {
+      makeMove,
+      turn,
+      resetBoard,
+      toggleYouWin,
+      playerX,
+      playerO,
+      youWin,
+    };
   };
   const game = createGame();
 
@@ -78,55 +88,18 @@ const playGame = () => {
     const playerOScore = document.getElementById("O");
     container.addEventListener("click", (event) => {
       let target = event.target;
-      switch (target.id) {
-        case "0":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "1":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-
-        case "2":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "3":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "4":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "5":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "6":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "7":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "8":
-          console.log(`cell ${target.id} clicked`);
-          game.makeMove(target.id);
-          break;
-        case "new_game":
-          gameBoard.reset();
-          updateDom();
-          console.log("new game button clicked");
-
-          break;
-        case "reset_score":
-          console.log("reset button clicked");
-          break;
-        default:
-          console.log("you clicked anything");
+      if (!isNaN(target.id) && target.id >= 0 && target.id <= 8) {
+        console.log(`cell ${target.id} clicked`);
+        game.makeMove(target.id);
+      } else if (target.id === "new_game") {
+        gameBoard.reset();
+        updateDom();
+        console.log(game.youWin);
+        console.log("new game button clicked");
+      } else if (target.id === "reset_score") {
+        console.log("reset button clicked");
+      } else {
+        console.log("you clicked anything");
       }
     });
 
@@ -176,11 +149,12 @@ const playGame = () => {
 
         if (board[a] != "" && board[b] == board[a] && board[c] == board[a]) {
           console.table("player", board[a], "is the winner");
+          console.log("hello", game.youWin);
 
           if (board[a] === "X") {
-            game.playerX.updateScore(+1);
+            game.playerX.updateScore();
           } else {
-            game.playerO.updateScore(+1);
+            game.playerO.updateScore();
           }
           game.toggleYouWin();
           return board[a];
@@ -188,6 +162,7 @@ const playGame = () => {
       }
       if (gameBoard.getBoard().filter((marker) => marker === "").length === 0) {
         console.table(gameBoard.getBoard());
+        console.log(game.youWin);
         game.toggleYouWin();
         console.table("it's a draw");
       }
