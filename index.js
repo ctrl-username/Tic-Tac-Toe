@@ -1,7 +1,7 @@
 // and let the js coding begin, it's been a while
 // this sure as hell will be messy
 //track board state
-const playGame = () => {
+(() => {
   const gameBoard = (() => {
     let board = ["", "", "", "", "", "", "", "", ""];
 
@@ -100,6 +100,7 @@ const playGame = () => {
         game.makeMove(target.id);
       } else if (target.id === "new_game") {
         gameBoard.reset();
+        statusBar.innerHTML = "Player X turn";
         updateDom();
         console.log(game.youWin);
         console.log("new game button clicked");
@@ -148,8 +149,10 @@ const playGame = () => {
 
     const checkWins = () => {
       const wins = [...winsX, ...winsY, ...winsD];
-      const updateWinner = (x) =>
-        displayController.updateStatus(`Game over ${x} wins`);
+      const updateWinner = (x) => (
+        displayController.updateStatus(`Game over ${x} wins`),
+        displayController.updateDom()
+      );
       const board = gameBoard.getBoard();
       // check wins
       for (let i = 0; i < wins.length; i++) {
@@ -195,7 +198,7 @@ const playGame = () => {
     "turn",
   );
 
-  return { game };
-};
+  // return { game };
+})();
 
-const game = playGame();
+// const game = playGame();
