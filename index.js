@@ -26,8 +26,9 @@
     let score = 0;
     const getScore = () => score;
     const updateScore = () => (score += 1);
+    const resetScore = () => (score = 0);
 
-    return { playerID, marker, getScore, updateScore };
+    return { playerID, marker, getScore, updateScore, resetScore };
   }
 
   const createGame = () => {
@@ -105,6 +106,9 @@
         console.log(game.youWin);
         console.log("new game button clicked");
       } else if (target.id === "reset_score") {
+        game.playerX.resetScore();
+        game.playerO.resetScore();
+        updateDom();
         console.log("reset button clicked");
       } else {
         console.log("you clicked anything");
