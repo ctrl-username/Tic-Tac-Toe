@@ -43,7 +43,6 @@
     let turn = playerX.marker;
     const currentPlayer = () =>
       displayController.updateStatus(`Player ${turn} turn`);
-    // console.table(`it's Player ${turn} turn`, console.log(game.youWin));
 
     const resetBoard = gameBoard.reset;
 
@@ -54,7 +53,7 @@
           case "X":
             gameBoard.updateCell(index, playerX.marker)
               ? (turn = playerO.marker)
-              : console.info("Cell is already filled");
+              : alert("Cell is already filled");
 
             displayController.updateDom();
             currentPlayer();
@@ -65,7 +64,7 @@
           case "O":
             gameBoard.updateCell(index, playerO.marker)
               ? (turn = playerX.marker)
-              : console.info("Cell is already filled");
+              : alert("Cell is already filled");
             displayController.updateDom();
             currentPlayer();
             winConditions.checkWins();
@@ -97,21 +96,15 @@
     container.addEventListener("click", (event) => {
       let target = event.target;
       if (!isNaN(target.id) && target.id >= 0 && target.id <= 8) {
-        console.log(`cell ${target.id} clicked`);
         game.makeMove(target.id);
       } else if (target.id === "new_game") {
         gameBoard.reset();
         statusBar.innerHTML = "Player X turn";
         updateDom();
-        console.log(game.youWin);
-        console.log("new game button clicked");
       } else if (target.id === "reset_score") {
         game.playerX.resetScore();
         game.playerO.resetScore();
         updateDom();
-        console.log("reset button clicked");
-      } else {
-        console.log("you clicked anything");
       }
     });
 
@@ -120,10 +113,8 @@
       playerXScore.innerHTML = game.playerX.getScore();
 
       gameBoard.getBoard().map((cell, index) => {
-        console.table(cell);
         let item = document.getElementById(index);
         item.textContent = cell;
-        console.log(item);
       });
     };
     const updateStatus = (value) => {
@@ -163,9 +154,6 @@
         const [a, b, c] = wins[i];
 
         if (board[a] !== "" && board[b] === board[a] && board[c] === board[a]) {
-          console.table("player", board[a], "is the winner");
-          console.log("hello", game.youWin);
-
           if (board[a] === "X") {
             game.playerX.updateScore();
             updateWinner("X");
@@ -178,31 +166,11 @@
         }
       }
       if (gameBoard.getBoard().filter((marker) => marker === "").length === 0) {
-        console.table(gameBoard.getBoard());
-        console.log(game.youWin);
         game.toggleYouWin();
-        console.table("it's a draw");
+
         displayController.updateStatus(`It's a Draw`);
       }
     };
-
-    //   bameboard = gameBoard.board
-    //   if (gameBoard.board[0]
     return { checkWins };
   })();
-
-  const gameOver = () => {};
-
-  console.table(
-    "game start",
-
-    "\n",
-    "it's player ",
-    game.turn,
-    "turn",
-  );
-
-  // return { game };
 })();
-
-// const game = playGame();
