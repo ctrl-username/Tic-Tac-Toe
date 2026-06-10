@@ -25,7 +25,7 @@ const playGame = () => {
     const marker = name;
     let score = 0;
     const getScore = () => score;
-    const updateScore = (newscore) => (score += 1);
+    const updateScore = () => (score += 1);
 
     return { playerID, marker, getScore, updateScore };
   }
@@ -41,7 +41,8 @@ const playGame = () => {
 
     let turn = playerX.marker;
     const currentPlayer = () =>
-      console.table(`it's Player ${turn} turn`, console.log(game.youWin));
+      displayController.updateStatus(`Player ${turn} turn`);
+    // console.table(`it's Player ${turn} turn`, console.log(game.youWin));
 
     const resetBoard = gameBoard.reset;
 
@@ -53,18 +54,22 @@ const playGame = () => {
             gameBoard.updateCell(index, playerX.marker)
               ? (turn = playerO.marker)
               : console.info("Cell is already filled");
-            winConditions.checkWins();
+
             displayController.updateDom();
             currentPlayer();
+            winConditions.checkWins();
+            // displayController.updateStatus(`Player ${turn} turn`);
 
             break;
           case "O":
             gameBoard.updateCell(index, playerO.marker)
               ? (turn = playerX.marker)
               : console.info("Cell is already filled");
-            winConditions.checkWins();
             displayController.updateDom();
             currentPlayer();
+            winConditions.checkWins();
+
+            // displayController.updateStatus(`Player ${turn} turn`);
 
             break;
         }
@@ -84,8 +89,10 @@ const playGame = () => {
 
   const displayController = (() => {
     const container = document.getElementById("container");
+    const statusBar = document.getElementById("status-bar");
     const playerXScore = document.getElementById("X");
     const playerOScore = document.getElementById("O");
+
     container.addEventListener("click", (event) => {
       let target = event.target;
       if (!isNaN(target.id) && target.id >= 0 && target.id <= 8) {
@@ -106,6 +113,7 @@ const playGame = () => {
     const updateDom = () => {
       playerOScore.innerHTML = game.playerO.getScore();
       playerXScore.innerHTML = game.playerX.getScore();
+
       gameBoard.getBoard().map((cell, index) => {
         console.table(cell);
         let item = document.getElementById(index);
@@ -113,12 +121,11 @@ const playGame = () => {
         console.log(item);
       });
     };
-    // console.log(container);
-    // console.log(gameBoard.getBoard().slice(0, 3));
-    // console.log(gameBoard.getBoard().slice(3, 6));
-    // console.log(gameBoard.getBoard().slice(6, 9));
-    updateDom();
-    return { updateDom };
+    const updateStatus = (value) => {
+      statusBar.innerHTML = value;
+    };
+
+    return { updateDom, updateStatus };
   })();
 
   const winConditions = (() => {
@@ -141,20 +148,23 @@ const playGame = () => {
 
     const checkWins = () => {
       const wins = [...winsX, ...winsY, ...winsD];
-
+      const updateWinner = (x) =>
+        displayController.updateStatus(`Game over ${x} wins`);
       const board = gameBoard.getBoard();
       // check wins
       for (let i = 0; i < wins.length; i++) {
         const [a, b, c] = wins[i];
 
-        if (board[a] != "" && board[b] == board[a] && board[c] == board[a]) {
+        if (board[a] !== "" && board[b] === board[a] && board[c] === board[a]) {
           console.table("player", board[a], "is the winner");
           console.log("hello", game.youWin);
 
           if (board[a] === "X") {
             game.playerX.updateScore();
+            updateWinner("X");
           } else {
             game.playerO.updateScore();
+            updateWinner("O");
           }
           game.toggleYouWin();
           return board[a];
@@ -165,6 +175,7 @@ const playGame = () => {
         console.log(game.youWin);
         game.toggleYouWin();
         console.table("it's a draw");
+        displayController.updateStatus(`It's a Draw`);
       }
     };
 
