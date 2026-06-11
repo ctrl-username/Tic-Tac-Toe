@@ -108,9 +108,7 @@
         statusBar.innerHTML = `Player ${game.player1} turn` || "Player X turn";
         updateDom();
       } else if (target.id === "reset_Game") {
-        game.playerX.resetScore();
-        game.playerO.resetScore();
-        updateDom();
+        location.reload();
       }
     });
 
@@ -150,10 +148,19 @@
 
     const checkWins = () => {
       const wins = [...winsX, ...winsY, ...winsD];
-      const updateWinner = (x) => (
-        displayController.updateStatus(`Game over ${game.turn.playerID} wins`),
-        displayController.updateDom()
-      );
+      const updateWinner = (x) => {
+        if (x === "X") {
+          (displayController.updateStatus(
+            `Game over ${game.playerX.playerID} wins`,
+          ),
+            displayController.updateDom());
+        } else {
+          (displayController.updateStatus(
+            `Game over ${game.playerO.playerID} wins`,
+          ),
+            displayController.updateDom());
+        }
+      };
       const board = gameBoard.getBoard();
       // check wins
       for (let i = 0; i < wins.length; i++) {
