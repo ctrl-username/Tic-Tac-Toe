@@ -20,9 +20,9 @@
     return { getBoard, updateCell, reset };
   })();
 
-  function createPlayer(name) {
-    const playerID = `Player ${name}`;
-    const marker = name;
+  function createPlayer(name, mark) {
+    const playerID = `${name}`;
+    let marker = mark;
     let score = 0;
     const getScore = () => score;
     const updateScore = () => (score += 1);
@@ -38,25 +38,25 @@
 
     //create players
 
-    const playerX = createPlayer(player1);
-    const playerO = createPlayer(player2);
+    const playerX = createPlayer(player1, "X");
+    const playerO = createPlayer(player2, "O");
 
     let youWin = false;
     const toggleYouWin = () => (youWin = !youWin);
 
-    let turn = playerX.marker;
+    let turn = playerX;
     const currentPlayer = () =>
-      displayController.updateStatus(`Player ${turn} turn`);
+      displayController.updateStatus(`Player ${turn.playerID} turn`);
 
     const resetBoard = gameBoard.reset;
 
     const makeMove = (index) => {
       if (!youWin) {
         // pick turn
-        switch (turn) {
+        switch (turn.marker) {
           case "X":
             gameBoard.updateCell(index, playerX.marker)
-              ? (turn = playerO.marker)
+              ? (turn = playerO)
               : alert("Cell is already filled");
 
             displayController.updateDom();
@@ -67,7 +67,7 @@
             break;
           case "O":
             gameBoard.updateCell(index, playerO.marker)
-              ? (turn = playerX.marker)
+              ? (turn = playerX)
               : alert("Cell is already filled");
             displayController.updateDom();
             currentPlayer();
@@ -87,6 +87,8 @@
       playerX,
       playerO,
       youWin,
+      player1,
+      player2,
     };
   };
   const game = createGame();
@@ -103,7 +105,7 @@
         game.makeMove(target.id);
       } else if (target.id === "new_game") {
         gameBoard.reset();
-        statusBar.innerHTML = "Player X turn";
+        statusBar.innerHTML = `Player ${game.player1} turn` || "Player X turn";
         updateDom();
       } else if (target.id === "reset_Game") {
         game.playerX.resetScore();
@@ -149,7 +151,7 @@
     const checkWins = () => {
       const wins = [...winsX, ...winsY, ...winsD];
       const updateWinner = (x) => (
-        displayController.updateStatus(`Game over ${x} wins`),
+        displayController.updateStatus(`Game over ${game.turn.playerID} wins`),
         displayController.updateDom()
       );
       const board = gameBoard.getBoard();
