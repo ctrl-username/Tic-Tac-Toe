@@ -32,10 +32,14 @@
   }
 
   const createGame = () => {
+    // add players name
+    const player1 = prompt("Player X name: ") || "X";
+    const player2 = prompt("Player O name: ") || "O";
+
     //create players
 
-    const playerX = createPlayer("X");
-    const playerO = createPlayer("O");
+    const playerX = createPlayer(player1);
+    const playerO = createPlayer(player2);
 
     let youWin = false;
     const toggleYouWin = () => (youWin = !youWin);
@@ -101,7 +105,7 @@
         gameBoard.reset();
         statusBar.innerHTML = "Player X turn";
         updateDom();
-      } else if (target.id === "reset_score") {
+      } else if (target.id === "reset_Game") {
         game.playerX.resetScore();
         game.playerO.resetScore();
         updateDom();
